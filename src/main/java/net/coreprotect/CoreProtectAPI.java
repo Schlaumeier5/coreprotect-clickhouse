@@ -213,14 +213,24 @@ public class CoreProtectAPI extends Queue {
 
     /**
      * Logs a chat message for a player.
-     * 
-     * @param player
-     *            The player who sent the message
-     * @param message
-     *            The chat message
+     *
+     * @param player The player who sent the message
+     * @param message The chat message
      * @return True if the message was logged
      */
     public boolean logChat(Player player, String message) {
+        return logChat(player, message, false);
+    }
+
+    /**
+     * Logs a chat message for a player.
+     * 
+     * @param player The player who sent the message
+     * @param message The chat message
+     * @param cancelled Whether the chat message was cancelled.
+     * @return True if the message was logged
+     */
+    public boolean logChat(Player player, String message, boolean cancelled) {
         if (!isEnabledForPlayer(player) || !Config.getConfig(player.getWorld()).PLAYER_MESSAGES) {
             return false;
         }
@@ -230,30 +240,39 @@ public class CoreProtectAPI extends Queue {
         }
 
         long timestamp = System.currentTimeMillis() / 1000L;
-        Queue.queuePlayerChat(player, message, timestamp, false);
+        Queue.queuePlayerChat(player, message, timestamp, cancelled);
         return true;
     }
 
     /**
      * Logs a command executed by a player.
-     * 
-     * @param player
-     *            The player who executed the command
-     * @param command
-     *            The command
+     *
+     * @param player The player who executed the command
+     * @param command The command
      * @return True if the command was logged
      */
     public boolean logCommand(Player player, String command) {
+        return logCommand(player, command, false);
+    }
+
+    /**
+     * Logs a command executed by a player.
+     * 
+     * @param player The player who executed the command
+     * @param command The command
+     * @return True if the command was logged
+     */
+    public boolean logCommand(Player player, String command, boolean cancelled) {
         if (!isEnabledForPlayer(player) || !Config.getConfig(player.getWorld()).PLAYER_COMMANDS) {
             return false;
         }
 
-        if (command == null || command.isEmpty() || !command.startsWith("/")) {
+        if (command == null || !command.startsWith("/")) {
             return false;
         }
 
         long timestamp = System.currentTimeMillis() / 1000L;
-        Queue.queuePlayerCommand(player, command, timestamp, false);
+        Queue.queuePlayerCommand(player, command, timestamp, cancelled);
         return true;
     }
 
