@@ -42,6 +42,8 @@ public class LookupCommand {
         Map<Object, Boolean> argExclude = CommandParser.parseExcluded(player, args, argAction);
         List<String> argExcludeUsers = CommandParser.parseExcludedUsers(player, args);
         String ts = CommandParser.parseTimeString(args);
+        List<String> argNames = CommandParser.parseRestrictedNames(args);
+        List<String> argAuthors = CommandParser.parseAuthors(args);
         long[] argTime = CommandParser.parseTime(args);
         long startTime = argTime[0];
         long endTime = argTime[1];
@@ -602,7 +604,7 @@ public class LookupCommand {
                         }
                     }
 
-                    Runnable runnable = new StandardLookupThread(player, command, rollbackusers, argBlocks, argExclude, argExcludeUsers, argAction, argRadius, lo, x, y, z, wid, argWid, timeStart, timeEnd, argNoisy, argExcluded, argRestricted, pa, re, type, ts, count);
+                    Runnable runnable = new StandardLookupThread(player, command, rollbackusers, argBlocks, argExclude, argExcludeUsers, argAction, argRadius, lo, x, y, z, wid, argWid, timeStart, timeEnd, argNoisy, argExcluded, argRestricted, pa, re, type, ts, count, argAuthors, argNames);
                     Thread thread = new Thread(runnable);
                     thread.start();
                 }

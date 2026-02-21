@@ -50,7 +50,9 @@ public class StandardLookupThread implements Runnable {
     private final CommandSender player;
     private final Command command;
     private final List<String> rollbackUsers;
+    private final List<String> authors;
     private final List<Object> blockList;
+    private final List<String> nameList;
     private final Map<Object, Boolean> excludedBlocks;
     private final List<String> excludedUsers;
     private final List<Integer> actions;
@@ -72,11 +74,13 @@ public class StandardLookupThread implements Runnable {
     private final String rtime;
     private final boolean count;
 
-    public StandardLookupThread(CommandSender player, Command command, List<String> rollbackUsers, List<Object> blockList, Map<Object, Boolean> excludedBlocks, List<String> excludedUsers, List<Integer> actions, Integer[] radius, Location location, int x, int y, int z, int worldId, int argWorldId, long timeStart, long timeEnd, int noisy, int excluded, int restricted, int page, int displayResults, int typeLookup, String rtime, boolean count) {
+    public StandardLookupThread(CommandSender player, Command command, List<String> rollbackUsers, List<Object> blockList, Map<Object, Boolean> excludedBlocks, List<String> excludedUsers, List<Integer> actions, Integer[] radius, Location location, int x, int y, int z, int worldId, int argWorldId, long timeStart, long timeEnd, int noisy, int excluded, int restricted, int page, int displayResults, int typeLookup, String rtime, boolean count, List<String> authors, List<String> nameList) {
         this.player = player;
         this.command = command;
         this.rollbackUsers = rollbackUsers;
+        this.authors = authors;
         this.blockList = blockList;
+        this.nameList = nameList;
         this.excludedBlocks = excludedBlocks;
         this.excludedUsers = excludedUsers;
         this.actions = actions;

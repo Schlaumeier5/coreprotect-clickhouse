@@ -138,6 +138,72 @@ public class UserParser {
     }
 
     /**
+     * Parse authors from command arguments
+     * 
+     * @param inputArguments
+     *            The command arguments
+     * @return A list of parsed users
+     */
+    public static List<String> parseAuthors(String[] inputArguments) {
+        String[] argumentArray = inputArguments.clone();
+        List<String> users = new ArrayList<>();
+        int count = 0;
+        int next = 0;
+        for (String argument : argumentArray) {
+            if (count > 0) {
+                argument = argument.trim().toLowerCase(Locale.ROOT);
+                argument = argument.replaceAll("\\\\", "");
+                argument = argument.replaceAll("'", "");
+
+                if (next == 2) {
+                    if (argument.endsWith(",")) {
+                        next = 2;
+                    }
+                    else {
+                        next = 0;
+                    }
+                }
+                else if (argument.equals("au:") || argument.equals("author:") ||argument.equals("authors:")) {
+                    next = 1;
+                }
+                else if (next == 1 || argument.startsWith("au:") || argument.startsWith("author:") || argument.startsWith("authors:")) {
+                    argument = argument.replaceAll("authors:", "");
+                    argument = argument.replaceAll("author:", "");
+                    argument = argument.replaceAll("au:", "");
+                    if (argument.contains(",")) {
+                        String[] i2 = argument.split(",");
+                        for (String i3 : i2) {
+                            parseUser(users, i3);
+                        }
+                        if (argument.endsWith(",")) {
+                            next = 1;
+                        }
+                        else {
+                            next = 0;
+                        }
+                    }
+                    else {
+                        parseUser(users, argument);
+                        next = 0;
+                    }
+                }
+                else if (argument.endsWith(",") || argument.endsWith(":")) {
+                    next = 2;
+                }
+                else if (argument.contains(":")) {
+                    next = 0;
+                }
+                else {
+                    parseUser(users, argument);
+                    next = 0;
+                }
+            }
+            count++;
+        }
+        return users;
+    }
+
+    /**
      * Process a user string and add it to the users list if valid
      * 
      * @param users

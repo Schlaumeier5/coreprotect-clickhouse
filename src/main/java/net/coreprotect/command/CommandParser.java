@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import net.coreprotect.command.parser.ActionParser;
 import net.coreprotect.command.parser.LocationParser;
 import net.coreprotect.command.parser.MaterialParser;
+import net.coreprotect.command.parser.NameParser;
 import net.coreprotect.command.parser.TimeParser;
 import net.coreprotect.command.parser.UserParser;
 import net.coreprotect.command.parser.WorldParser;
@@ -187,6 +188,17 @@ public class CommandParser {
     }
 
     /**
+     * Parse restricted item and entity names from command arguments
+     *
+     * @param inputArguments
+     *            The command arguments
+     * @return A list of restricted item and entity names
+     */
+    protected static List<String> parseRestrictedNames(String[] args) {
+        return NameParser.parseRestricted(args);
+    }
+
+    /**
      * Parse time from command arguments
      * 
      * @param inputArguments
@@ -316,6 +328,18 @@ public class CommandParser {
     }
 
     /**
+     * Parse authors from command arguments
+     * 
+     * @param inputArguments
+     *            The command arguments
+     * @return A list of parsed users
+     */
+    protected static List<String> parseAuthors(String[] args) {
+        return UserParser.parseAuthors(args);
+    }
+
+
+    /**
      * Helper method for formatting BigDecimal values
      * 
      * @param input
@@ -325,5 +349,4 @@ public class CommandParser {
     private static String timeString(BigDecimal input) {
         return input.stripTrailingZeros().toPlainString();
     }
-
 }
